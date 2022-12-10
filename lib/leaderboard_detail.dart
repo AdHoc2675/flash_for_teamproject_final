@@ -97,7 +97,6 @@ class _MyLeaderboardDetailPageState extends State<MyLeaderboardDetailPage> {
                                           (BuildContext context, int index) {
                                         QueryDocumentSnapshot x =
                                             snapshot.data!.docs[index];
-
                                         return ListTile(
                                           leading: Text(
                                             '#${index + 1}',

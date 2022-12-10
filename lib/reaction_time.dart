@@ -1,5 +1,7 @@
 import 'dart:math';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flash_for_teamproject/Theme/color.dart';
 import 'package:flash_for_teamproject/Theme/font.dart';
 import 'package:flutter/material.dart';
@@ -60,6 +62,16 @@ class _ReactionTimeState extends State<ReactionTime> {
     } else {
       return ReactionTimeError();
     }
+  }
+
+  Future<DocumentReference> addScoreToReactionTime(int score) {
+    return FirebaseFirestore.instance
+        .collection('ReactionTime')
+        .add(<String, dynamic>{
+      'score': score,
+      'name': FirebaseAuth.instance.currentUser!.displayName,
+      'userId': FirebaseAuth.instance.currentUser!.uid,
+    });
   }
 
   @override
@@ -417,6 +429,7 @@ class _ReactionTimeState extends State<ReactionTime> {
             onPressed: (() {
               Navigator.pop(context);
               _timer.cancel();
+              addScoreToReactionTime(score);
             }),
             child: Icon(
               Icons.home,
